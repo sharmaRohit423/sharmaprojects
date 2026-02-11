@@ -171,7 +171,16 @@
     transform: translateX(-50%) scale(1) rotate(-2deg);
     height: 28px;
   }
+  
 }
+/* Flame OFF state */
+.flame-off {
+  opacity: 0;
+  transform: translateX(-50%) scale(0);
+  transition: all 0.4s ease;
+  animation: none !important;
+}
+
 </style>
 
 </head>
@@ -230,7 +239,7 @@
   <div class="container">
 
     <!-- 🔥 CANDLE -->
-    <div class="velas">
+   <div class="velas" onclick="blowCandle()" title="Tap to blow candle 🕯️">
       <div class="fuego"></div>
       <div class="fuego"></div>
       <div class="fuego"></div>
@@ -481,7 +490,17 @@ function startCandle() {
 
   document.querySelector(".velas").classList.add("drop");
 }
-  </script>
+function blowCandle() {
+  const flames = document.querySelectorAll(".fuego");
 
+  flames.forEach(flame => {
+    flame.classList.add("flame-off");
+  });
+   // Wait 1 second after flame off
+  setTimeout(() => {
+    window.location.href = "file:///C:/Users/Rohit%20Sharma/Documents/ooooooo/editedbookteddy.html";
+  }, 1000);
+}
+  </script>
 </body>
 </html>
