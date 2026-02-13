@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 Page Flip Book</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  font-family: sans-serif;
+  position: relative;
+  z-index: 1;
+}
+
+/* Scene */
+.scene {
+  perspective: 1600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* Book */
+.book {
+  width: 300px;
+  height: 200px;
+  margin: auto;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* Page */
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 12px;
+  transform-origin: left;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+  transition: transform 3.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Page order */
+.page:nth-child(1) { z-index: 5; background: #ff8fab; color: white; }
+.page:nth-child(2) { z-index: 4; }
+.page:nth-child(3) { z-index: 3; background: #fff0f3; }
+.page:nth-child(4) { z-index: 2; }
+.page:nth-child(5) { z-index: 1; background: #ffe5ec; }
+
+/* Flipped state */
+.page.flipped {
+  transform: rotateY(-180deg);
+}
+
+/* Content */
+.content {
+  padding: 20px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+/* Button */
+button {
+  margin-top: 30px;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 25px;
+  background: #ff5f9e;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+
+/* TEDDY */
+#teddy {
+  font-size: 100px;
+  opacity: 0;
+  transform: scale(0.2) translateY(200px);
+  transition: all 3s ease;
+}
+
+/* BOX */
+#box {
+  font-size: 60px;
+  margin-top: 10px;
+  cursor: pointer;
+  display: none;
+}
+
+/* TEXT */
+#instruction {
+  margin-top: 10px;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+/* DRINK */
+#drink {
+  font-size: 90px;
+  cursor: pointer;
+  display: none;
+  opacity: 0;
+  transform: translateY(60px) scale(0.3);
+  transition: all 1.5s ease;
+}
+
+/* FINAL PAGE */
+#finalPage {
+  position: fixed;
+  inset: 0;
+  background: #fff3b0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+/* #finalPage h1 {
+  font-size: 64px;
+  font-weight: bold;
+  color: #ffb703;
+} */
+
+#lassiText {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #6a4c00;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  text-align: center;
+}
+#finalPage {
+  position: fixed;
+  inset: 0;
+  background: #fff3b0;
+  display: none;
+  flex-direction: column;   /* important */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.subText {
+  margin-top: 20px;
+  font-size: 22px;
+  color: #6a4c00;
+}
+
+.text2 {
+  margin-top: 19px;
+  font-size: 18px;
+  font-weight: normal;
+  color: #6a4c00;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+  text-align: center;
+}
+#finalSurprise {
+  display: none;          /* only this */
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+#finalSurprise.active {
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+
+.bigBtn {
+  background: #ff5f9e;
+  color: white;
+  padding: 20px 45px;
+  border: none;
+  border-radius: 40px;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+
+.bigBtn:hover {
+  transform: scale(1.08);
+}
+/* FALLING LEAVES BACKGROUND */
+.leaves {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;   /* so it doesn’t block clicks */
+  overflow: hidden;
+  z-index: 0;
+}
+
+.leaf {
+  position: absolute;
+  top: -50px;
+  font-size: 24px;
+  animation: fall linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-50px) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) translateX(100px) rotate(360deg);
+  }
+}
+
+</style>
+</head>
+
+<body>
+  <div class="leaves"></div>
+
+<div class="scene">
+  <div class="book" id="book">
+
+    <div class="page">
+      <div class="content">
+        <h2>AAGYI NA
+        </h2>
+        <p>CHLO AB EK GAME KHELTE,<BR>NEXT PAAGE CLICK KRO FIR <BR>WESE KRO JESE KAHA JAYE!!!!!!!!!😊</p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="content">
+        <h2>Welcome Sakhi!!</h2>
+        <p>Now Ready To Complete The Upcoming Dare.</p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="content">
+        <h2>CHALO AB</h2>
+        <p>Ankhein band kro aur 3 wish mangoo jo tum pura hona dekhna chahti 😌</p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="content">
+        <h2> ACHAA???</h2>
+        <p>Mtlb krli na jutha dare pura ankhein khuli thi main dekh liya ab firse kro!!!!!.</p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="content">
+        <h2>BADHIYAAA:)</h2>
+        <p>Now click on next page for a surprise box usme tumhare liye gift bhi hai.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;">
+  <button onclick="nextPage()" id="nextBtn">Next Page ➡️</button>
+  </div>
+</div>
+<div id="finalSurprise">
+  <button onclick="startTeddy()" class="bigBtn">
+    Now Finally Click This For A Surprise 🎁
+  </button>
+</div>
+
+
+</div>
+<!-- MAIN SCENE -->
+ <div id="scene" style="text-align:center; display:none;">
+  <div id="teddy">🧸</div>
+  <div id="box">📦</div>
+  <div id="instruction">Click to open the surprise</div>
+</div>
+
+<div id="drink">🧃</div>
+<div id="lassiText">
+  <div>YE LO 20 RUPAYE WALI MANGO LASSI 🍹🥭😋!!</div>
+  <p class="text2">Now click on the mango lassi!!</p>
+</div>
+
+<div id="finalPage">
+    <!-- <div id=" beHappy"> -->
+  <h1>BE HAPPY</h1>
+<p class="subText">
+  Aise hi Khush rho aur best of luck for upcoming exams
+</p>
+
+</div>
+<script>
+const teddy = document.getElementById("teddy");
+const box = document.getElementById("box");
+const instruction = document.getElementById("instruction");
+const drink = document.getElementById("drink");
+const finalPage = document.getElementById("finalPage");
+
+
+/* STEP 3: OPEN BOX */
+box.onclick = () => {
+  box.style.display = "none";
+  instruction.style.opacity = "0";
+
+  drink.style.display = "block";
+
+  setTimeout(() => {
+    drink.style.opacity = "1";
+    drink.style.transform = "translateY(0) scale(1)";
+  }, 100);
+
+  // TEXT appears AFTER mango is fully visible
+  setTimeout(() => {
+    document.getElementById("lassiText").style.opacity = "1";
+     document.querySelector(".text2").style.opacity = "1";
+  }, 1700); // matches mango animation duration
+};
+
+/* AFTER TEDY SCENE*/ 
+/* STEP 4: FINAL PAGE */
+drink.onclick = () => {
+  finalPage.style.display = "flex";
+};
+</script>
+
+<script>
+let currentPage = 0;
+const pages = document.querySelectorAll(".page");
+
+function nextPage() {
+  if (currentPage < pages.length) {
+    pages[currentPage].classList.add("flipped");
+    currentPage++;
+  } 
+  else {
+    // Book Hide
+    document.querySelector(".scene").style.display = "none";
+
+    // Show Surprise Button
+ document.getElementById("finalSurprise").classList.add("active");
+
+  }
+}
+function startTeddy() {
+  document.getElementById("finalSurprise").classList.remove("active");
+  document.getElementById("scene").style.display = "block";
+
+  // Reset state
+  teddy.style.opacity = "0";
+  teddy.style.transform = "scale(0.2) translateY(200px)";
+  box.style.display = "none";
+  instruction.style.opacity = "0";
+  drink.style.display = "none";
+  drink.style.opacity = "0";
+  drink.style.transform = "translateY(60px) scale(0.3)";
+
+  // STEP 1: TEDDY ENTERS
+  setTimeout(() => {
+    teddy.style.opacity = "1";
+    teddy.style.transform = "scale(1) translateY(0)";
+  }, 500);
+
+  // STEP 2: BOX APPEARS
+  setTimeout(() => {
+    teddy.style.opacity = "0";
+    box.style.display = "block";
+    instruction.style.opacity = "1";
+  }, 3800);
+}
+
+</script>
+<script>
+const leavesContainer = document.querySelector(".leaves");
+
+for (let i = 0; i < 25; i++) {
+  const leaf = document.createElement("div");
+  leaf.classList.add("leaf");
+  leaf.innerHTML = "🍁";
+
+  leaf.style.left = Math.random() * 100 + "vw";
+  leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
+  leaf.style.fontSize = 20 + Math.random() * 30 + "px";
+  leaf.style.opacity = Math.random();
+
+  leavesContainer.appendChild(leaf);
+}
+</script>
+
+</body>
+</html>
