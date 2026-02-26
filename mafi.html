@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun Page</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background-color: #F8C8DC;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    img {
+        width: 120px;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        position: relative;
+        display: flex;
+        gap: 20px;
+    }
+
+    button {
+        padding: 10px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 20px;
+        background-color: white;
+        cursor: pointer;
+    }
+
+    #noBtn {
+        position: relative;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>GUSSA HOGYI NA FIRSE?</h2>
+
+<img src="https://media.tenor.com/kTIu00Dc0WwAAAAj/hi.gif" alt="Cute GIF">
+
+<div class="buttons">
+    <button onclick="sayYes()">HAANN!!</button>
+    <button id="noBtn" onclick="moveNo()">NAHIN TOH!!</button>
+</div>
+
+<script>
+  function sayYes() {
+
+    // Clear everything inside body
+    document.body.innerHTML = "";
+
+    // Keep body styling same
+    document.body.style.backgroundColor = "#F8C8DC";
+    document.body.style.display = "flex";
+    document.body.style.flexDirection = "column";
+    document.body.style.justifyContent = "center";
+    document.body.style.alignItems = "center";
+    document.body.style.textAlign = "center";
+    document.body.style.fontFamily = "Arial, sans-serif";
+
+    // Create heading
+    let heading = document.createElement("h1");
+    heading.innerText = "CHALO THIKEE H AB SORRYY 😌";
+    heading.style.color = "#333";
+    heading.style.marginBottom = "20px";
+
+    // Create GIF
+    let gif = document.createElement("img");
+    gif.src = "https://media.tenor.com/IUvV1AjqwOgAAAAm/tkthao219-bubududu.webp";
+    gif.style.width = "200px";
+    gif.style.marginBottom = "25px";
+
+    // Create Button
+    let forgiveBtn = document.createElement("button");
+    forgiveBtn.innerText = "JAO MAAF KIYA";
+    forgiveBtn.style.padding = "14px 35px";
+    forgiveBtn.style.fontSize = "18px";
+    forgiveBtn.style.border = "none";
+    forgiveBtn.style.borderRadius = "25px";
+    forgiveBtn.style.backgroundColor = "white";
+    forgiveBtn.style.cursor = "pointer";
+
+    // Optional: Button click action
+    forgiveBtn.onclick = function() {
+
+    // Clear page again
+    document.body.innerHTML = "";
+
+    // Keep same background + center layout
+    document.body.style.backgroundColor = "#F8C8DC";
+    document.body.style.display = "flex";
+    document.body.style.flexDirection = "column";
+    document.body.style.justifyContent = "center";
+    document.body.style.alignItems = "center";
+    document.body.style.textAlign = "center";
+    document.body.style.fontFamily = "Arial, sans-serif";
+
+    // Create heading
+    let heading3 = document.createElement("h1");
+    heading3.innerHTML = "LO chocolate khao <br> cramp kam feel hoga 🍫";
+    heading3.style.color = "#333";
+    heading3.style.marginBottom = "25px";
+
+    // Create GIF
+    let gif3 = document.createElement("img");
+    gif3.src = "https://media.tenor.com/LjQL1e8aLusAAAAj/candy-celebration.gif";
+    gif3.style.width = "220px";
+
+    // Add to body
+    document.body.appendChild(heading3);
+    document.body.appendChild(gif3);
+};
+
+    // Add everything to body
+    document.body.appendChild(heading);
+    document.body.appendChild(gif);
+    document.body.appendChild(forgiveBtn);
+}
+function moveNo() {
+    let no = document.getElementById("noBtn");
+
+    let x = Math.random() * 200 - 100; 
+    let y = Math.random() * 200 - 100;
+
+    no.style.transform = `translate(${x}px, ${y}px)`;
+}
+</script>
+
+</body>
+</html>
